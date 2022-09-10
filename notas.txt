@@ -1,0 +1,92 @@
+ip 161.35.109.130
+usu: root
+pass: 012345Poli
+
+docker, contenedores, imagenes, redes, volumenes y dockercompose
+
+una imagen es una plantilla base con la que se crea uno o mas contenedores con un Dockerfile
+
+clonar el proyecto en la carpeta que creamos
+https://github.com/DiegoRTK/semillero-arus.git    - el de diego
+
+cambiar el nombre con mv el nombre del dockerfile a dockerfile.dev
+
+crear una imagen con
+docker build -t imagennombre .
+
+lo construimos con:
+docker build -t cristian -f Dockerfile.dev .
+esto nos permite tener varios dockerfile
+
+docker images    o    con docker image ls
+docker images -docker image ls
+
+se pone a correr con docker create nombredocker o
+docker create --name nombrecontenedor nombreimagen
+y se crea en estado creadted se debe poner a correr con
+docker start nombredocker
+
+https://github.com/cristianandres9/PRUEBA-GIT.git
+
+cambiar puerto
+docker run -d --name cristian_gil -p 6009:6000 cristian.gil
+
+-p puerto --name el nombre  estos parametros se pueden dar durante el docker created
+
+
+docker inspect nombre de la imagen
+
+descargamos una imagen de nginx con docker pull nginx
+luego 
+docker run --name cristian.gil-nginx -d -p 8089:80 nginx
+
+
+ingresamos al docker con
+docker exec -ti 47bb1160f28a bash     - los numeros son el identificador del contenedor
+
+vamos a cd /usr/share/nginx/html/
+dar un cat a index.html
+
+damos apt update
+luego apt install vim --yes
+
+__________________________________________________________________________________
+
+ips  
+161.35.127.60 -> produccion   
+161.35.57.138 -> gestion
+root
+12345Poli
+
+temario volumenes y variables laboratorio donde en gestion crearemos un repositorio privado para guardar las imagenes privadas tendra un geistry privado
+
+en el 38 creamos un contenedor de mongo
+la buscamos en docker hub y se corre con 
+docker pull mongo
+docker inspec mong 27017 puerto
+
+creamos el contenedor que salga por el puerto 6001 del puerto de mongo 27017
+docker run --name cristian-gil-db -d -p 6001:27017 mongo
+creamos las variables 
+docker run --name cristian-gil-db -e MONGO_INITDB_ROOT_USERNAME=cristian -e MONGO_INITDB_ROOT_PASSWORD=123456789 -d -p 6001:27017 mongo
+nos conectamos al docker creado
+docker exec -u 0 -ti cristian-gil-db bash
+ejecutamos el comando mongo y nos sale la info
+ejecutamos:
+ mongo -u cristian -p
+show dbs
+creamos bd con -> use parangua 
+ejecutamos -> db.conexionprueba.insertOne({pass:"cristian"})
+damos de nuevo show dbs y nos debe aparece la base creada
+db.conexionprueba.find()
+----------------------
+descargar el proyecto de git clonandolo en la carpeta
+una vez descargado creamos la imagen del docker file y creamos el contenedor
+luego en el navegado web dentramos a http://161.35.57.138:8081/    -> ya habiendoce creado el contenedor docker de nexu en el 161.35.57
+
+crear la imagen asi con estas caracteristcas
+docker build ubicaciondockerfile -t 161.35.57.138:puertodefinido /nombreimagen
+docker build . -t 161.35.57.138:8085/cristian.gil
+docker images
+docker push 161.35.57.138:8085/cristian.gil
+docker run --name cristian_gil -d -p 6005 161.35.57.138:8085/cristian.gil
